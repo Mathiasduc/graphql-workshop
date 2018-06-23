@@ -4,9 +4,7 @@ const Sequelize = require("sequelize");
 require("dotenv").config();
 
 const sequelize = new Sequelize(
-  `postgres://${process.env.USERNAME}:${
-    process.env.PASSWORD
-  }@ec2-23-23-247-245.compute-1.amazonaws.com:5432/${process.env.DB}`,
+  `postgres://${process.env.USERNAME}:${process.env.PASSWORD}@ec2-54-247-100-44.eu-west-1.compute.amazonaws.com:5432/${process.env.DB}`,
   {
     ssl: true,
     dialectOptions: {
@@ -40,9 +38,7 @@ const typeDefs = gql`
 
   type Mutation {
     addFramework(name: String, git: String): Framework
-    # there is a method called findById that will return a Framework and then you can use that Framework to call destroy on it
-    # Good luck
-    # removeFramework(id: ID): Framework
+    removeFramework(id: Int): Framework
   }
 `;
 
@@ -61,6 +57,16 @@ const resolvers = {
         return framework;
       } catch (e) {
         throw new Error(e);
+      }
+    },
+    async removeFramework(_, {id}){
+      try {
+        const framework = await Framework.findById(id)
+        await framework.destroy();
+        return framework
+      } catch (error) {
+        console.error(error);
+        throw error
       }
     }
   }

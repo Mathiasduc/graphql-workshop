@@ -4,8 +4,7 @@ const Sequelize = require("sequelize");
 require("dotenv").config();
 
 const sequelize = new Sequelize(
-  `postgres://${process.env.USERNAME}:${process.env.PASSWORD
-}@ec2-54-247-100-44.eu-west-1.compute.amazonaws.com:5432/${process.env.DB}`,
+  `postgres://${process.env.USERNAME}:${process.env.PASSWORD}@ec2-54-247-100-44.eu-west-1.compute.amazonaws.com:5432/${process.env.DB}`,
     {
       ssl: true,
       dialectOptions: {
